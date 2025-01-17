@@ -1,16 +1,24 @@
 <template>
   <AppHeader breadcrumb="Best rated" />
-  <SimpleResultsTemplate title="Best rated games" :icon="Trophy" :query="query" />
+  <ResultsTemplate
+    title="Best rated games"
+    :icon="Trophy"
+    :query="JSON.stringify(query)"
+  />
 </template>
 
 <script lang="ts" setup>
 import { Trophy } from 'lucide-vue-next'
 import AppHeader from "@/components/layout/AppHeader.vue"
+import ResultsTemplate from "@/components/ResultsTemplate.vue"
 
 definePageMeta({
   layout: 'default'
 })
 
 // * DATA
-const query = `fields name,cover.url,rating,first_release_date; where rating != null; sort rating desc;`
+const query = {
+  metacritic: '1,100',
+  ordering: '-metacritic',
+}
 </script>

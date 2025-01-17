@@ -1,18 +1,28 @@
 <template>
   <AppHeader breadcrumb="Upcoming release" />
-  <SimpleResultsTemplate title="Upcoming games release" :icon="Hourglass" :query="query" />
+  <ResultsTemplate
+    title="Upcoming games release"
+    :icon="Hourglass"
+    :query="JSON.stringify(query)"
+  />
 </template>
 
 <script lang="ts" setup>
 import { Hourglass } from 'lucide-vue-next'
 import AppHeader from "@/components/layout/AppHeader.vue"
-import SimpleResultsTemplate from "@/components/SimpleResultsTemplate.vue"
+import ResultsTemplate from "@/components/ResultsTemplate.vue"
 
 definePageMeta({
   layout: 'default'
 })
 
 // * DATA
-const unixTimestamp = ref<number>(Math.floor(new Date().getTime() / 1000))
-const query = `fields name,cover.url,first_release_date; where first_release_date >= ${unixTimestamp.value} & first_release_date != null; sort first_release_date asc;`
+const currentDate = ref<Date>(new Date())
+const futurDate = ref<Date>(new Date())
+currentDate.value.setDate(currentDate.value.getDate() + 1)
+futurDate.value.setFullYear(currentDate.value.getFullYear() + 10)
+const query = {
+  dates: `${currentDate.value.toISOString().slice(0, 10)},${futurDate.value.toISOString().slice(0, 10)}`,
+  ordering: 'released',
+}
 </script>

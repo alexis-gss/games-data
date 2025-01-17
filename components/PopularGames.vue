@@ -32,7 +32,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel"
-import errors from '~/utils/errors'
+import errors from '@/utils/errors'
 
 // * DATA
 const categories = ref<Array<PopularCategory>>([])
@@ -48,7 +48,7 @@ getPopularGamesFromApi()
  */
 async function getPopularGamesFromApi(): Promise<void> {
   try {
-    const { data } = await useFetch('/api/igdb-api', {
+    const { data } = await useFetch('/api/rawg-api', {
       method: 'POST',
       body: { endpoint: 'popularity_primitives', query: 'fields game_id; sort value desc; where popularity_type = 1; limit 10;' }
     })
@@ -70,7 +70,7 @@ async function getSearchPopularGamesFromApi(): Promise<void> {
     queries = queries + `query games "Popular ${element.game_id}" { fields name,first_release_date; where id = ${element.game_id}; };`
   });
   try {
-    const { data } = await useFetch('/api/igdb-api', {
+    const { data } = await useFetch('/api/rawg-api', {
       method: 'POST',
       body: { endpoint: 'multiquery', query: queries }
     })

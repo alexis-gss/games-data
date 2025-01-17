@@ -1,13 +1,16 @@
 <template>
   <Button
-    class="justify-between align-center text-gray-700 hover:text-blue-600 w-full"
+    class="search-trigger justify-between align-center text-gray-700 hover:text-blue-600 w-full h-auto p-2 lg:px-4"
     variant="outline"
     @click="handleOpenChange"
   >
-    <span class="inline-flex items-center">
-      <Search class="me-2" />Search
-    </span>
-    <CommandShortcut class="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100 text-xs ms-2">
+    <p class="inline-flex items-center">
+      <Search class="sm:me-2 md:me-0 lg:me-2" />
+      <span class="hidden sm:block md:hidden lg:block">
+        Search a game name...
+      </span>
+    </p>
+    <CommandShortcut class="hidden lg:flex pointer-events-none h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100 text-xs ms-2">
       <template v-if="$device.isApple">
         <Command />
       </template>
@@ -78,7 +81,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { useMagicKeys } from '@vueuse/core'
 import { ref, watch } from 'vue'
-import errors from '~/utils/errors'
+import errors from '@/utils/errors'
 
 // * DATA
 const searchQuery = ref<string>('')
@@ -118,7 +121,7 @@ watch(searchQuery, async (newQuery) => {
   if (newQuery && newQuery.length > searchMinCharacters.value) {
     loading.value = true
     try {
-      const { data } = await useFetch('/api/igdb-api', {
+      const { data } = await useFetch('/api/rawg-api', {
         method: 'POST',
         body: { endpoint: 'games', query: `fields name, first_release_date; search "${newQuery}"; limit 5;` }
       })
@@ -164,5 +167,21 @@ function setRandomPlaceholder(): void {
 <style lang="css" scoped>
 #search {
   box-shadow: none;
+}
+.search-trigger {
+  width: fit-content;
+  height: 34px;
+  @media (min-width: 640px) {
+    width: 20rem;
+  }
+  @media (min-width: 768px) {
+    width: fit-content;
+  }
+  @media (min-width: 1024px) {
+    width: 20rem;
+  }
+  @media (min-width: 1280px) {
+    width: 30rem;
+  }
 }
 </style>

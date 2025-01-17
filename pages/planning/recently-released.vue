@@ -1,18 +1,27 @@
 <template>
   <AppHeader breadcrumb="Recently released" />
-  <SimpleResultsTemplate title="Recently released games" :icon="History" :query="query" />
+  <ResultsTemplate
+    title="Recently released games"
+    :icon="History"
+    :query="JSON.stringify(query)"
+  />
 </template>
 
 <script lang="ts" setup>
 import { History } from 'lucide-vue-next'
 import AppHeader from "@/components/layout/AppHeader.vue"
-import SimpleResultsTemplate from "@/components/SimpleResultsTemplate.vue"
+import ResultsTemplate from "@/components/ResultsTemplate.vue"
 
 definePageMeta({
   layout: 'default'
 })
 
 // * DATA
-const unixTimestamp = ref<number>(Math.floor(new Date().getTime() / 1000))
-const query = `fields name,cover.url,first_release_date; where first_release_date <= ${unixTimestamp.value} & first_release_date != null; sort first_release_date desc;`
+const currentDate = ref<Date>(new Date())
+const pastDate = ref<Date>(new Date())
+pastDate.value.setFullYear(currentDate.value.getFullYear() - 10)
+const query = {
+  dates: `${pastDate.value.toISOString().slice(0, 10)},${currentDate.value.toISOString().slice(0, 10)}`,
+  ordering: '-released',
+}
 </script>

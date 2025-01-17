@@ -5,12 +5,12 @@
         <CardTitle>{{ game.name }}</CardTitle>
         <CardDescription class="flex justify-start items-center">
           <CalendarIcon class="mr-2 h-4 w-4 opacity-70" />
-          <span>{{ formatDate(game.first_release_date) }}</span>
+          <span>{{ formatDate(game.released) }}</span>
         </CardDescription>
       </CardHeader>
       <CardContent class="custom-content p-4">
         <img
-          :src="game.cover ? game.cover.url : 'https://placehold.co/90x90/jpg'"
+          :src="game.background_image !== null ? game.background_image : 'https://placehold.co/90x90/jpg'"
           class="rounded-full h-full"
           :alt="`Cover of the game ${game.name}`"
         >
@@ -34,8 +34,12 @@ const props = defineProps({
 const game = ref<Game>(props.game)
 
 // * METHODS
-function formatDate(timestamp: number): string {
-  return timestamp ? new Date(timestamp * 1000).toLocaleDateString() : 'Date inconnue'
+function formatDate(timestamp: string): string {
+  return timestamp ? new Date(timestamp).toLocaleDateString('en-EN', {
+    day: '2-digit',
+    month: 'long',
+    year: 'numeric'
+  }) : 'Date inconnue'
 }
 </script>
 

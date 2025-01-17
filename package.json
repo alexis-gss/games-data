@@ -27,6 +27,7 @@
     "slugify": "^1.6.6",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7",
+    "vaul-vue": "^0.2.0",
     "vue": "latest",
     "vue-router": "latest"
   },

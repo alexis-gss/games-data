@@ -1,8 +1,10 @@
 <template>
-  <SidebarProvider>
+  <SidebarProvider vaul-drawer-wrapper>
     <AppSidebar />
-    <SidebarInset class="container">
-      <slot />
+    <SidebarInset>
+      <div class="container">
+        <slot />
+      </div>
     </SidebarInset>
   </SidebarProvider>
 </template>

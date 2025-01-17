@@ -2,26 +2,16 @@
   <Sidebar>
     <SidebarHeader>
       <SidebarMenu>
-        <SidebarMenuItem>
+        <SidebarMenuItem class="text-center">
           <NuxtLink to="/" class="text-gray-700 hover:text-blue-600">
-            <h1 class="scroll-m-20 font-extrabold text-center tracking-tight text-2xl">
+            <span class="scroll-m-20 font-extrabold tracking-tight text-2xl">
               {{ config.public.appName }}
-            </h1>
+            </span>
           </NuxtLink>
         </SidebarMenuItem>
       </SidebarMenu>
     </SidebarHeader>
     <SidebarContent>
-      <!-- SEARCH -->
-      <SidebarGroup>
-        <SidebarGroupContent>
-          <SidebarMenu>
-            <SidebarMenuItem>
-              <SearchCommand />
-            </SidebarMenuItem>
-          </SidebarMenu>
-        </SidebarGroupContent>
-      </SidebarGroup>
       <!-- NAV LINKS -->
       <SidebarGroup v-for="(navGroup, navGroupIndex) in navList" :key="navGroupIndex">
         <SidebarGroupLabel>{{ navGroup.title }}</SidebarGroupLabel>
@@ -29,10 +19,14 @@
           <SidebarMenu>
             <SidebarMenuItem v-for="(navLink, navLinkIndex) in navGroup.links" :key="navLinkIndex">
               <SidebarMenuButton asChild>
-                <NuxtLink :to="setLink(navGroup, navLink.title)" :class="[
-                  'hover:text-blue-600',
-                  route.path === setLink(navGroup, navLink.title) ? 'text-blue-600' : 'text-gray-700'
-                ]" @click="setRoute(setLink(navGroup, navLink.title))">
+                <NuxtLink
+                  :to="setLink(navGroup, navLink.title)"
+                  :class="[
+                    'hover:text-blue-600',
+                    route.path === setLink(navGroup, navLink.title) ? 'text-blue-600 bg-secondary' : 'text-gray-700'
+                  ]"
+                  @click="setRoute(setLink(navGroup, navLink.title))"
+                >
                   <component :is="navLink.icon" />{{ navLink.title }}
                 </NuxtLink>
               </SidebarMenuButton>
@@ -46,11 +40,12 @@
 
 <script lang="ts" setup>
 import { useRoute } from 'vue-router'
-import { Home, Search, Flame, Hourglass, History, CalendarCheck, Star, CircleCheckBig, Trophy } from 'lucide-vue-next'
+import { Home, Search, Flame, Hourglass, History, CalendarCheck, Trophy, Gamepad2, Download, Ghost, Hash, CodeXml, DollarSign } from 'lucide-vue-next'
 import slugify from 'slugify'
-import SearchCommand from "@/components/SearchCommand.vue"
+import { useSidebar } from '@/components/ui/sidebar'
 
 // * DATA
+const { setOpenMobile, isMobile } = useSidebar()
 const route = useRoute()
 const router = useRouter()
 const config = useRuntimeConfig()
@@ -80,14 +75,6 @@ const navList = ref<Array<NavGroup>>([
       {
         title: 'Best rated',
         icon: Trophy
-      },
-      {
-        title: 'Wishlist',
-        icon: Star
-      },
-      {
-        title: 'Played',
-        icon: CircleCheckBig
       }
     ]
   },
@@ -109,6 +96,36 @@ const navList = ref<Array<NavGroup>>([
       }
     ]
   },
+  {
+    title: 'Browse',
+    group: true,
+    links: [
+      {
+        title: 'Genres',
+        icon: Ghost
+      },
+      {
+        title: 'Tags',
+        icon: Hash
+      },
+      {
+        title: 'Platforms',
+        icon: Gamepad2
+      },
+      {
+        title: 'Stores',
+        icon: Download
+      },
+      {
+        title: 'Developers',
+        icon: CodeXml
+      },
+      {
+        title: 'Publishers',
+        icon: DollarSign
+      }
+    ]
+  }
 ])
 
 // * METHODS
@@ -128,6 +145,9 @@ function setLink(navGroup: NavGroup, title: string): string {
   * @return void
   */
 function setRoute(newRoute: string): void {
+  if (isMobile) {
+    setOpenMobile(false)
+  }
   router.replace(newRoute);
 };
 </script>

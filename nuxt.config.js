@@ -10,8 +10,8 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       appName: process.env.APP_NAME,
-      igdbClientId: process.env.IGDB_CLIENT_ID,
-      igdbClientSecret: process.env.IGDB_CLIENT_SECRET,
+      apiUrl: process.env.API_URL,
+      apiKey: process.env.API_KEY,
     }
   },
   css: ['~/assets/css/tailwind.css'],

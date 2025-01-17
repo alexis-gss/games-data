@@ -20,7 +20,7 @@
           </template>
           <template v-else>
             <li v-for="(game, gameIndex) in gameCategory.games" :key="gameIndex">
-              <CardGame :game="game" :loading="loading" />
+              <CardGameMedium :game="game" :loading="loading" />
             </li>
           </template>
         </template>
@@ -34,7 +34,8 @@
 
 <script lang="ts" setup>
 import { History, Hourglass, CalendarCheck } from 'lucide-vue-next'
-import errors from '~/utils/errors'
+import CardGameMedium from '@/components/cards/CardMedium.vue'
+import errors from '@/utils/errors'
 
 // * DATA
 const loading = ref<boolean>(true)
@@ -79,7 +80,7 @@ async function getGamesListFromApi(): Promise<void> {
     newQuery += gameCategory.query
   })
   try {
-    const { data } = await useFetch('/api/igdb-api', {
+    const { data } = await useFetch('/api/rawg-api', {
       method: 'POST',
       body: { endpoint: 'multiquery', query: newQuery }
     })
