@@ -50,4 +50,9 @@ import AppHeader from "@/components/layout/AppHeader.vue"
 definePageMeta({
   layout: 'default'
 })
+
+const route = useRoute()
+const { slug } = route.params
+const gameData = JSON.parse((route.query.objectData as string) || '{}')
+console.log(slug, gameData)
 </script>
