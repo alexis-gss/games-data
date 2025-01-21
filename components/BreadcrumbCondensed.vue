@@ -3,7 +3,7 @@
     <BreadcrumbList>
       <BreadcrumbItem>
         <BreadcrumbLink asChild>
-          <NuxtLink to="/" class="text-gray-700 hover:text-blue-600">Home</NuxtLink>
+          <NuxtLink to="/" class="text-foreground hover:text-primary">Home</NuxtLink>
         </BreadcrumbLink>
       </BreadcrumbItem>
       <template v-if="child">

@@ -1,6 +1,6 @@
 <template>
   <Button
-    class="search-trigger justify-between align-center text-gray-700 hover:text-blue-600 w-full h-auto p-2 lg:px-4"
+    class="search-trigger justify-between align-center text-gray-700 hover:text-primary w-auto sm:w-[20rem] md:w-auto lg:w-[20rem] xl:w-[30rem] h-[34px] p-2 lg:px-4"
     variant="outline"
     @click="handleOpenChange"
   >
@@ -23,12 +23,12 @@
   <CommandDialog v-model:open="open">
     <div class="relative items-center w-full">
       <Input
-      v-model="searchQuery"
-      id="search"
-      type="text"
-      :placeholder="`ex: ${placeholders[placeholderIndex]}`"
-      class="border-t-0 border-s-0 border-e-0 rounded-none px-10"
-    />
+        v-model="searchQuery"
+        id="search"
+        type="text"
+        :placeholder="`ex: ${placeholders[placeholderIndex]}`"
+        class="border-t-0 border-s-0 border-e-0 rounded-none px-10"
+      />
       <span class="absolute start-0 inset-y-0 flex items-center justify-center px-2">
         <Search class="size-6 text-muted-foreground" />
       </span>
@@ -121,11 +121,18 @@ watch(searchQuery, async (newQuery) => {
   if (newQuery && newQuery.length > searchMinCharacters.value) {
     loading.value = true
     try {
-      const { data } = await useFetch('/api/rawg-api', {
+      const data = await $fetch('/api/rawg-api', {
         method: 'POST',
-        body: { endpoint: 'games', query: `fields name, first_release_date; search "${newQuery}"; limit 5;` }
+        body: {
+          endpoint: 'games',
+          query: {
+            search: newQuery,
+            ordering: '-popularity',
+            page_size: 5
+          }
+        }
       })
-      games.value = data.value ?? []
+      games.value = data.results ?? []
     } catch (error) {
       errorMessage.value = errors.methods.handleAjaxError(error)
     } finally {
@@ -167,21 +174,5 @@ function setRandomPlaceholder(): void {
 <style lang="css" scoped>
 #search {
   box-shadow: none;
-}
-.search-trigger {
-  width: fit-content;
-  height: 34px;
-  @media (min-width: 640px) {
-    width: 20rem;
-  }
-  @media (min-width: 768px) {
-    width: fit-content;
-  }
-  @media (min-width: 1024px) {
-    width: 20rem;
-  }
-  @media (min-width: 1280px) {
-    width: 30rem;
-  }
 }
 </style>

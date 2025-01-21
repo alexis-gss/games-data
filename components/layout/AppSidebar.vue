@@ -3,7 +3,7 @@
     <SidebarHeader>
       <SidebarMenu>
         <SidebarMenuItem class="text-center">
-          <NuxtLink to="/" class="text-gray-700 hover:text-blue-600">
+          <NuxtLink to="/" class="text-background-foreground hover:text-primary">
             <span class="scroll-m-20 font-extrabold tracking-tight text-2xl">
               {{ config.public.appName }}
             </span>
@@ -12,6 +12,9 @@
       </SidebarMenu>
     </SidebarHeader>
     <SidebarContent>
+    <SidebarGroup>
+      <ThemeButton />
+    </SidebarGroup>
       <!-- NAV LINKS -->
       <SidebarGroup v-for="(navGroup, navGroupIndex) in navList" :key="navGroupIndex">
         <SidebarGroupLabel>{{ navGroup.title }}</SidebarGroupLabel>
@@ -22,8 +25,7 @@
                 <NuxtLink
                   :to="setLink(navGroup, navLink.title)"
                   :class="[
-                    'hover:text-blue-600',
-                    route.path === setLink(navGroup, navLink.title) ? 'text-blue-600 bg-secondary' : 'text-gray-700'
+                    route.path === setLink(navGroup, navLink.title) ? 'text-primary-foreground bg-primary' : 'text-background-foreground hover:text-primary'
                   ]"
                   @click="setRoute(setLink(navGroup, navLink.title))"
                 >
@@ -43,6 +45,7 @@ import { useRoute } from 'vue-router'
 import { Home, Search, Flame, Hourglass, History, CalendarCheck, Trophy, Gamepad2, Download, Ghost, Hash, CodeXml, DollarSign } from 'lucide-vue-next'
 import slugify from 'slugify'
 import { useSidebar } from '@/components/ui/sidebar'
+import ThemeButton from '@/components/ThemeButton.vue'
 
 // * DATA
 const { setOpenMobile, isMobile } = useSidebar()

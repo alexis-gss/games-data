@@ -6,8 +6,74 @@
     :query="JSON.stringify(query)"
     @successfullCall="setLoaderValue"
   >
-    <!-- FILTERS -->
-    <Collapsible v-model:open="collapseOpen" class="sticky top-[66px] bg-white pb-4 z-10">
+    <!-- FILTERS MOBILE -->
+    <Sheet>
+      <div class="sticky md:hidden top-[66px] bg-background pb-4 z-30">
+        <div class="relative w-full items-center mb-4">
+          <Input id="search" type="text" placeholder="Search..." class="pl-10" />
+          <span class="absolute start-0 inset-y-0 flex items-center justify-center px-2">
+            <Search class="size-6 text-muted-foreground" />
+          </span>
+        </div>
+        <div class="flex justify-between items-center w-full">
+          <div class="flex justify-between items-center">
+            <SheetTrigger :disabled="loading" asChild>
+              <Button
+                variant="outline"
+                class="rounded-r-none"
+                :disabled="loading"
+              >
+                <Filter />
+                Filters
+              </Button>
+            </SheetTrigger>
+            <Button
+              class="rounded-l-none"
+              @click="resetQuery"
+              :disabled="loading"
+            >
+              Reset filter
+            </Button>
+          </div>
+          <Skeleton v-if="loading" class="h-6 w-[95px]" />
+          <p v-else class="text-sm italic text-muted-foreground ms-3">
+            {{ totalResults.toLocaleString('en-US') }} results
+          </p>
+        </div>
+        <SheetContent>
+          <SheetHeader class="text-start">
+            <SheetTitle>Filters</SheetTitle>
+            <SheetDescription>
+              Select all filters you would apply to results.
+            </SheetDescription>
+          </SheetHeader>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 py-4">
+            <FilterYear @updateQueryYear="updateQuery" />
+            <FilterButton
+              v-for="(filter, filterIndex) in filters"
+              :key="filterIndex"
+              :title="filter.title"
+              :queryKey="filter.queryKey"
+              :indexBySlug="filter.indexBySlug"
+              :models="filter.models"
+              @updateQueryFilter="updateQuery"
+            />
+          </div>
+          <SheetFooter>
+            <SheetClose as-child>
+              <Button
+                @click="resetQuery"
+                :disabled="loading"
+              >
+                Reset filter
+              </Button>
+            </SheetClose>
+          </SheetFooter>
+        </SheetContent>
+      </div>
+    </Sheet>
+    <!-- FILTERS DESKTOP -->
+    <Collapsible v-model:open="collapseOpen" class="hidden md:block sticky top-[66px] bg-background pb-4 z-30">
       <div class="relative w-full items-center mb-4">
         <Input id="search" type="text" placeholder="Search..." class="pl-10" />
         <span class="absolute start-0 inset-y-0 flex items-center justify-center px-2">
@@ -15,12 +81,25 @@
         </span>
       </div>
       <div class="flex justify-between items-center w-full">
-        <CollapsibleTrigger :disabled="loading" asChild>
-          <Button variant="outline" :disabled="loading">
-            Need some filters ?
-            <ChevronUp :class="['duration-300 ease-in-out', {'transform rotate-180': collapseOpen}]" />
+        <div class="flex justify-between items-center">
+          <CollapsibleTrigger :disabled="loading" asChild>
+            <Button
+              variant="outline"
+              class="rounded-r-none"
+              :disabled="loading"
+            >
+              <Filter />
+              Filters
+            </Button>
+          </CollapsibleTrigger>
+          <Button
+            class="rounded-l-none"
+            @click="resetQuery"
+            :disabled="loading"
+          >
+            Reset filter
           </Button>
-        </CollapsibleTrigger>
+        </div>
         <Skeleton v-if="loading" class="h-6 w-[95px]" />
         <p v-else class="text-sm italic text-muted-foreground ms-3">
           {{ totalResults.toLocaleString('en-US') }} results
@@ -57,7 +136,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Search, ChevronUp } from 'lucide-vue-next'
+import { Search, Filter } from 'lucide-vue-next'
 import { Button } from '@/components/ui/button'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 import { Input } from '@/components/ui/input'

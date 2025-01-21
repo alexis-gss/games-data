@@ -1,15 +1,3 @@
-// NAVIGATION
-type NavGroup = {
-  title: string,
-  group: boolean,
-  links: Array<NavLink>,
-}
-
-type NavLink = {
-  title: string,
-  icon: Component
-}
-
 // RAWG
 type Game = {
   added: number,
@@ -144,3 +132,34 @@ type Publisher = {
     added: number,
   }>,
 }
+
+// NAVIGATION
+type NavGroup = {
+  title: string,
+  group: boolean,
+  links: Array<NavLink>,
+}
+
+type NavLink = {
+  title: string,
+  icon: Component
+}
+
+// OTHER
+type ThemeColor =
+  | 'zinc'
+  | 'slate'
+  | 'stone'
+  | 'gray'
+  | 'neutral'
+  | 'red'
+  | 'rose'
+  | 'orange'
+  | 'green'
+  | 'blue'
+  | 'yellow'
+  | 'violet'
+
+type ModeColor =
+  | 'light'
+  | 'dark'

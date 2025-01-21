@@ -2,7 +2,6 @@
   <NuxtLink :to="{
     name: 'game-slug',
     params: { slug: game.slug },
-    query: { objectData: JSON.stringify(game) }
   }">
     <Card class="inline-flex flex-row-reverse justify-end w-full">
       <CardHeader class="flex flex-col justify-center items-start p-4 ps-0">

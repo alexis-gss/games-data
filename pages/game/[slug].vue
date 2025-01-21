@@ -53,6 +53,5 @@ definePageMeta({
 
 const route = useRoute()
 const { slug } = route.params
-const gameData = JSON.parse((route.query.objectData as string) || '{}')
-console.log(slug, gameData)
+console.log(slug)
 </script>

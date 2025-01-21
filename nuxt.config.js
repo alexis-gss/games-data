@@ -14,19 +14,12 @@ export default defineNuxtConfig({
       apiKey: process.env.API_KEY,
     }
   },
-  css: ['~/assets/css/tailwind.css'],
+  css: ['~/assets/css/tailwind.css', '~/assets/css/themes.css'],
   tailwindcss: {
     configPath: '~/tailwind.config.js'
   },
   shadcn: {
-    /**
-     * Prefix for all the imported component
-     */
     prefix: '',
-    /**
-     * Directory that the component lives in.
-     * @default "./components/ui"
-     */
     componentDir: './components/ui'
   }
 })
