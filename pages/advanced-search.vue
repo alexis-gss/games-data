@@ -192,7 +192,7 @@ function resetQuery(): void {
 /**
  * Set loader value to false et update results total counter
  * when the ajax call is successfull.
- * @param number queryTotalResults
+ * @param queryTotalResults number
  */
 function setLoaderValue(queryTotalResults: number): void {
   totalResults.value = queryTotalResults

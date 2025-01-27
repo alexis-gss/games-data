@@ -1,7 +1,7 @@
 <template>
   <AppHeader breadcrumb="Recently released" />
   <ResultsTemplate
-    title="test"
+    title="Recently released games"
     :icon="History"
     :query="JSON.stringify(query)"
   />

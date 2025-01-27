@@ -24,6 +24,7 @@
 
 <script lang="ts" setup>
 import { CalendarIcon } from 'lucide-vue-next'
+import { getFormatDate } from '@/utils/dates'
 
 // * PROPS
 const props = defineProps({
@@ -35,21 +36,6 @@ const props = defineProps({
 
 // * DATA
 const game = ref<Game>(props.model)
-
-// * METHODS
-
-/**
- * Format a date.
- * @param timestamp
- * @return string
- */
-function getFormatDate(timestamp: string): string {
-  return timestamp ? new Date(timestamp).toLocaleDateString('en-EN', {
-    day: '2-digit',
-    month: 'long',
-    year: 'numeric'
-  }) : 'Date inconnue'
-}
 </script>
 
 <style lang="css" scoped>

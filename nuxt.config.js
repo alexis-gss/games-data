@@ -1,7 +1,7 @@
 export default defineNuxtConfig({
   ssr: false,
   compatibilityDate: '2025-01-09',
-  modules: ['@nuxtjs/tailwindcss', 'shadcn-nuxt', '@nuxtjs/device'],
+  modules: ['@nuxtjs/tailwindcss', '@nuxtjs/device', 'shadcn-nuxt'],
   router: {
     options: {
       hashMode: true

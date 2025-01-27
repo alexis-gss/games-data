@@ -176,7 +176,7 @@ async function getResultsFromApi(concat: boolean = false): Promise<void> {
 
 /**
  * Set params pagination.
- * @param string query
+ * @param query string
  * @return Object
  */
 function setParams(query: string): Object {

@@ -1,57 +1,45 @@
 <template>
   <AppHeader breadcrumb="Game" />
-  <Tabs default-value="default" class="w-[400px]">
-    <TabsList class="grid w-full grid-cols-2">
-      <TabsTrigger value="default">
-        Default
-      </TabsTrigger>
-      <TabsTrigger value="second">
-        Second
-      </TabsTrigger>
-    </TabsList>
-    <TabsContent value="default">
-      <Card>
-        <CardHeader>
-          <CardTitle>Default tab</CardTitle>
-          <CardDescription>
-            Here the description of the first part.
-          </CardDescription>
-        </CardHeader>
-      </Card>
-    </TabsContent>
-    <TabsContent value="second">
-      <Card>
-        <CardHeader>
-          <CardTitle>Second tab</CardTitle>
-          <CardDescription>
-            Some text for the second part of the tab.
-          </CardDescription>
-        </CardHeader>
-      </Card>
-    </TabsContent>
-  </Tabs>
+  <p>{{ game?.name }}</p>
 </template>
 
-<script setup lang="ts">
-import {
-  Card,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from '@/components/ui/tabs'
+<script lang="ts" setup>
 import AppHeader from "@/components/layout/AppHeader.vue"
 
 definePageMeta({
   layout: 'default'
 })
 
-const route = useRoute()
-const { slug } = route.params
-console.log(slug)
+// * DATA
+const { slug } = useRoute().params
+const game = ref<Game|null>(null)
+const loading = ref<boolean>(true)
+const errorMessage = ref<string|null>(null)
+getGame()
+// * METHODS
+
+/**
+ * Get games from ids.
+ * @return Promise<void>
+ */
+async function getGame(): Promise<void> {
+  try {
+    loading.value = true
+    const { data } = await useFetch('/api/rawg-api', {
+      method: 'POST',
+      body: {
+        endpoint: 'games',
+        query: {
+          search: slug,
+        }
+      }
+    })
+    game.value = data.value.results[0]
+  } catch (error) {
+    errorMessage.value = errors.methods.handleAjaxError(error)
+  } finally {
+    loading.value = false
+    console.log(game.value)
+  }
+}
 </script>

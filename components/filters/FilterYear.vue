@@ -127,8 +127,8 @@ function resetYear(): void {
 
 /**
  * Set new dates.
- * @param number newStartYear
- * @param number newEndYear
+ * @param newStartYear number
+ * @param newEndYear number
  * @return void
  */
 function setDates(newStartYear: number, newEndYear: number): void {

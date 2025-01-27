@@ -1,11 +1,9 @@
 <template>
   <SidebarProvider>
     <AppSidebar />
-    <div class="container">
-      <SidebarInset>
-        <slot />
-      </SidebarInset>
-    </div>
+    <SidebarInset class="container container-custom">
+      <slot />
+    </SidebarInset>
   </SidebarProvider>
 </template>
 
@@ -45,3 +43,9 @@ watch(radius, (radius) => {
   document.documentElement.style.setProperty('--radius', `${radius}rem`)
 })
 </script>
+
+<style lang="css">
+.container-custom {
+  width: calc(100% - var(--sidebar-width));
+}
+</style>

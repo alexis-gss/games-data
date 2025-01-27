@@ -1510,51 +1510,6 @@ export const colors = {
   ],
 }
 
-export const colorMapping = {
-  light: {
-    'background': 'white',
-    'foreground': '{{base}}-950',
-    'card': 'white',
-    'card-foreground': '{{base}}-950',
-    'popover': 'white',
-    'popover-foreground': '{{base}}-950',
-    'primary': '{{base}}-900',
-    'primary-foreground': '{{base}}-50',
-    'secondary': '{{base}}-100',
-    'secondary-foreground': '{{base}}-900',
-    'muted': '{{base}}-100',
-    'muted-foreground': '{{base}}-500',
-    'accent': '{{base}}-100',
-    'accent-foreground': '{{base}}-900',
-    'destructive': 'red-500',
-    'destructive-foreground': '{{base}}-50',
-    'border': '{{base}}-200',
-    'input': '{{base}}-200',
-    'ring': '{{base}}-950',
-  },
-  dark: {
-    'background': '{{base}}-950',
-    'foreground': '{{base}}-50',
-    'card': '{{base}}-950',
-    'card-foreground': '{{base}}-50',
-    'popover': '{{base}}-950',
-    'popover-foreground': '{{base}}-50',
-    'primary': '{{base}}-50',
-    'primary-foreground': '{{base}}-900',
-    'secondary': '{{base}}-800',
-    'secondary-foreground': '{{base}}-50',
-    'muted': '{{base}}-800',
-    'muted-foreground': '{{base}}-400',
-    'accent': '{{base}}-800',
-    'accent-foreground': '{{base}}-50',
-    'destructive': 'red-900',
-    'destructive-foreground': '{{base}}-50',
-    'border': '{{base}}-800',
-    'input': '{{base}}-800',
-    'ring': '{{base}}-300',
-  },
-} as const
-
 // Create an array of color values
 export const allColors: ThemeColor[] = [
   'zinc',
@@ -1576,3 +1531,54 @@ export const allModes: ModeColor[] = [
   'light',
   'dark',
 ]
+
+export const themes = [
+  {
+    name: 'zinc',
+  },
+  {
+    name: 'slate',
+  },
+  {
+    name: 'stone',
+  },
+  {
+    name: 'gray',
+  },
+  {
+    name: 'neutral',
+  },
+  {
+    name: 'red',
+  },
+  {
+    name: 'rose',
+  },
+  {
+    name: 'orange',
+  },
+  {
+    name: 'green',
+  },
+  {
+    name: 'blue',
+  },
+  {
+    name: 'yellow',
+  },
+  {
+    name: 'violet',
+  },
+] as const
+
+export const modes = [
+  {
+    name: 'light',
+  },
+  {
+    name: 'dark',
+  },
+] as const
+
+export type Mode = (typeof modes)[number]
+export type Theme = (typeof themes)[number]

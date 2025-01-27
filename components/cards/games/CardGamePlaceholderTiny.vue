@@ -1,8 +1,7 @@
 <template>
   <Card>
-    <CardContent class="space-y-2 p-4">
-      <Skeleton class="h-6 w-full" />
-      <Skeleton class="h-4 w-1/2 pb-[18px]" />
+    <CardContent class="p-2">
+      <Skeleton class="h-5 w-full" />
     </CardContent>
   </Card>
 </template>

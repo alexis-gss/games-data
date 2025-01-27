@@ -39,13 +39,10 @@
 </template>
 
 <script lang="ts" setup>
-import { CalendarIcon } from 'lucide-vue-next'
 import {
   Table,
   TableBody,
   TableCell,
-  TableHead,
-  TableHeader,
   TableRow,
 } from '@/components/ui/table'
 
