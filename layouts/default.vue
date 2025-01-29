@@ -3,6 +3,7 @@
     <AppSidebar />
     <SidebarInset class="container container-custom">
       <slot />
+      <AppFooter />
     </SidebarInset>
   </SidebarProvider>
 </template>
@@ -10,6 +11,7 @@
 <script lang="ts" setup>
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
 import AppSidebar from "@/components/layout/AppSidebar.vue"
+import AppFooter from "@/components/layout/AppFooter.vue"
 import { useConfigStore } from '@/utils/config'
 import { allColors } from '@/utils/colors'
 

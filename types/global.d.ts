@@ -1,7 +1,14 @@
 // RAWG
 type Game = {
   added: number,
-  added_by_status: number|null,
+  added_by_status: {
+    beaten: number,
+    dropped: number,
+    owned: number,
+    playing: number,
+    toplay: number,
+    yet: number,
+  }|null,
   background_image: string|null,
   clip: null,
   dominant_color: string,
@@ -54,8 +61,7 @@ type Store = {
 }
 
 type Stores = {
-  id: number,
-  store: Array<Store>,
+  store: Store,
 }
 
 type Screenshot = {
@@ -75,9 +81,7 @@ type ParentPlatform = {
 }
 
 type Platforms = {
-  platform: Array<Platform>,
-  released_at: string,
-  requirements_en: string|null,
+  platform: Platform,
 }
 
 type Platform = {

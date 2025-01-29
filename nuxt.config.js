@@ -10,6 +10,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       appName: process.env.APP_NAME,
+      ggUrl: process.env.GG_URL,
       apiUrl: process.env.API_URL,
       apiKey: process.env.API_KEY,
     }

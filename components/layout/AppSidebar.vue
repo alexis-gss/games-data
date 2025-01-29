@@ -3,7 +3,10 @@
     <SidebarHeader>
       <SidebarMenu>
         <SidebarMenuItem class="text-center">
-          <NuxtLink to="/" class="text-background-foreground hover:text-primary">
+          <NuxtLink
+            to="/"
+            class="text-background-foreground hover:text-primary"
+          >
             <span class="scroll-m-20 font-extrabold tracking-tight text-2xl">
               {{ config.public.appName }}
             </span>
@@ -16,11 +19,17 @@
       <ThemeButton />
     </SidebarGroup>
       <!-- NAV LINKS -->
-      <SidebarGroup v-for="(navGroup, navGroupIndex) in navList" :key="navGroupIndex">
+      <SidebarGroup
+        v-for="(navGroup, navGroupIndex) in navList"
+        :key="navGroupIndex"
+      >
         <SidebarGroupLabel>{{ navGroup.title }}</SidebarGroupLabel>
         <SidebarGroupContent>
           <SidebarMenu>
-            <SidebarMenuItem v-for="(navLink, navLinkIndex) in navGroup.links" :key="navLinkIndex">
+            <SidebarMenuItem
+              v-for="(navLink, navLinkIndex) in navGroup.links"
+              :key="navLinkIndex"
+            >
               <SidebarMenuButton asChild>
                 <NuxtLink
                   :to="setLink(navGroup, navLink.title)"
