@@ -1,9 +1,9 @@
 <template>
   <footer class="py-12">
     <Separator label="test" />
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 my-8">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 my-12">
       <div>
-        <h3 class="text-xl font-bold mb-4">À propos</h3>
+        <h3 class="text-xl font-bold mb-4">{{ config.public.appName }}</h3>
         <p class="text-gray-400 mb-2">Designed and built by Alexis Gousseau, Games Data is a library of informations about all games released and future on all platforms.</p>
         <p class="text-gray-400">Currently v1.0.0</p>
       </div>
@@ -12,9 +12,9 @@
         <ul class="space-y-2">
           <li><NuxtLink to="/">Home</NuxtLink></li>
           <li><NuxtLink to="/advanced-search">Advanced search</NuxtLink></li>
-          <li><NuxtLink to="/popular">Popular</NuxtLink></li>
-          <li><NuxtLink to="/most-anticipated">Most anticipated</NuxtLink></li>
-          <li><NuxtLink to="/publishers">Publishers</NuxtLink></li>
+          <li><NuxtLink to="/trend/popular">Popular</NuxtLink></li>
+          <li><NuxtLink to="/planning/most-anticipated">Most anticipated</NuxtLink></li>
+          <li><NuxtLink to="/browse/publishers">Publishers</NuxtLink></li>
         </ul>
       </div>
       <div>
@@ -32,7 +32,8 @@
   </footer>
 </template>
 
-<script>
+<script lang="ts" setup>
+const config = useRuntimeConfig()
 </script>
 
 <style lang="css">

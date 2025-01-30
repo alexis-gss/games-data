@@ -79,8 +79,8 @@
 
 <script lang="ts" setup>
 import { colors, allColors } from '~/utils/colors'
-import { Button } from '@/components/ui/button'
-import { Label } from '@/components/ui/label'
+import { Button } from '~/components/ui/button'
+import { Label } from '~/components/ui/label'
 import { RADII, useConfigStore } from '~/utils/config'
 import { Sun, Moon, Check } from 'lucide-vue-next'
 

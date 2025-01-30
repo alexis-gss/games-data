@@ -1,6 +1,6 @@
 <template>
   <div class="relative">
-    <div class="flex items-center justify-start mt-10 scroll-m-20 border-b pb-2 text-2xl md:text-3xl font-bold tracking-tight transition-colors first:mt-0 mb-4">
+    <div class="flex items-center justify-start scroll-m-20 border-b pb-2 text-2xl md:text-3xl font-bold tracking-tight transition-colors first:mt-0 mb-4">
       <component
         :is="icon"
         class="mr-[5px]"
@@ -64,9 +64,9 @@
 
 <script lang="ts" setup>
 import { LoaderCircle } from 'lucide-vue-next'
-import CardGameMedium from "@/components/cards/games/CardGameMedium.vue"
-import CardGamePlaceholderMedium from "@/components/cards/games/CardGamePlaceholderMedium.vue"
-import errors from '@/utils/errors'
+import CardGameMedium from "~/components/cards/CardGame.vue"
+import CardGamePlaceholderMedium from "~/components/cards/placeholders/CardGamePlaceholder.vue"
+import errors from '~/utils/errors'
 
 // * EVENTS
 const emit = defineEmits(['successfullCall'])

@@ -52,11 +52,11 @@
         </CardHeader>
         <CardContent>
           <p><strong>Release date :</strong> {{ new Date(game!.released).toLocaleDateString() }}</p>
-          <p><strong>Genres :</strong> {{ game.genres.map(g => g.name).join(', ') }}</p>
-          <p><strong>Stores :</strong> {{ game.stores.map(g => g.store.name).join(', ') }}</p>
-          <p><strong>Plateforms :</strong> {{ game.platforms.map(g => g.platform.name).join(', ') }}</p>
-          <p><strong>Tags :</strong> {{ game.tags.filter(g => g.language === "eng").map(g => g.name).join(', ') }}</p>
-          <p><strong>ESRB Rating :</strong> {{ game.esrb_rating?.name }}</p>
+          <p v-if="game.genres && game.genres.length"><strong>Genres :</strong> {{ game.genres.map(g => g.name).join(', ') }}</p>
+          <p v-if="game.stores && game.stores.length"><strong>Stores :</strong> {{ game.stores.map(g => g.store.name).join(', ') }}</p>
+          <p v-if="game.platforms && game.platforms.length"><strong>Plateforms :</strong> {{ game.platforms.map(g => g.platform.name).join(', ') }}</p>
+          <p v-if="game.tags && game.tags.length"><strong>Tags :</strong> {{ game.tags.filter(g => g.language === "eng").map(g => g.name).join(', ') }}</p>
+          <p v-if="game.esrb_rating"><strong>ESRB Rating :</strong> {{ game.esrb_rating.name }}</p>
           <p><strong>Average playtime :</strong> {{ game.playtime }}h</p>
         </CardContent>
       </Card>
@@ -75,7 +75,7 @@
             class="mb-6 lg:mb-0"
           />
           <RatingDonut
-            v-if="game.metacritic !== null"
+            v-if="game.metacritic"
             title="Metacritic"
             :rating="game.metacritic"
             :max-rating="100"
@@ -131,10 +131,10 @@
 
 <script lang="ts" setup>
 import { TriangleAlert, SquareArrowOutUpRight } from 'lucide-vue-next'
-import { AspectRatio } from "@/components/ui/aspect-ratio"
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
-import AppHeader from "@/components/layout/AppHeader.vue"
-import RatingDonut from '@/components/RatingDonut.vue'
+import { AspectRatio } from "~/components/ui/aspect-ratio"
+import { Card, CardHeader, CardTitle, CardContent } from "~/components/ui/card"
+import AppHeader from "~/components/layout/AppHeader.vue"
+import RatingDonut from '~/components/RatingDonut.vue'
 
 definePageMeta({
   layout: 'default'

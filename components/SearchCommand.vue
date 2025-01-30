@@ -77,11 +77,11 @@ import {
   CommandItem,
   CommandList,
   CommandShortcut,
-} from '@/components/ui/command'
-import { Button } from '@/components/ui/button'
+} from '~/components/ui/command'
+import { Button } from '~/components/ui/button'
 import { useMagicKeys } from '@vueuse/core'
 import { ref, watch } from 'vue'
-import errors from '@/utils/errors'
+import errors from '~/utils/errors'
 
 // * DATA
 const searchQuery = ref<string>('')

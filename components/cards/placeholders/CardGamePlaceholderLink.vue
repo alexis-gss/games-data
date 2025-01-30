@@ -7,6 +7,6 @@
 </template>
 
 <script lang="ts" setup>
-import { Card, CardContent } from "@/components/ui/card"
-import { Skeleton } from "@/components/ui/skeleton"
+import { Card, CardContent } from "~/components/ui/card"
+import { Skeleton } from "~/components/ui/skeleton"
 </script>

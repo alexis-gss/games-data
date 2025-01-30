@@ -1,42 +1,24 @@
 <template>
-  <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 py-1.5">
-    <NuxtLink
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 gap-2 mb-4">
+    <CardCounterPlaceholder
+      v-if="loading"
+      v-for="skeleton in 4"
+      :key="skeleton"
+    />
+    <CardCounter
+      v-else
       v-for="(game, gameIndex) in games"
       :key="gameIndex"
-      :to="{
-        name: 'game-slug',
-        params: { slug: game.slug },
-      }"
-    >
-      <Card class="flex flex-col justify-center items-center h-full">
-        <CardHeader class="text-center p-6 pb-4">
-          <CardTitle>{{ game.name }}</CardTitle>
-          <CardDescription class="flex justify-center items-center">
-            <CalendarIcon class="mr-2 h-4 w-4 opacity-70" />
-            <span>{{ getFormatDate(game.released) }}</span>
-          </CardDescription>
-        </CardHeader>
-        <CardContent class="flex flex-col items-center justify-center p-6 pt-0">
-          <div class="flex space-x-4">
-            <div
-              v-for="(time, timeIndex) in times[gameIndex]"
-              :key="timeIndex"
-              class="flex flex-col items-center"
-            >
-              <div class="text-4xl font-bold text-primary">{{ time.value }}</div>
-              <div class="text-sm text-gray-500 dark:text-gray-400">{{ time.label }}</div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-    </NuxtLink>
+      :model="game"
+      :time="times[gameIndex]"
+    />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { CalendarIcon } from 'lucide-vue-next'
-import { Card, CardContent } from "@/components/ui/card"
 import { differenceInYears, differenceInMonths, differenceInDays, differenceInHours, differenceInMinutes, differenceInSeconds, addYears, addMonths, addHours, addMinutes } from 'date-fns'
+import CardCounter from "~/components/cards/CardCounter.vue"
+import CardCounterPlaceholder from '~/components/cards/placeholders/CardCounterPlaceholder.vue';
 
 // * PROPS
 const props = defineProps({
@@ -46,7 +28,7 @@ const props = defineProps({
   },
   loading: {
     type: Boolean,
-    default: false
+    default: true
   },
 })
 

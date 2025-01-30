@@ -137,13 +137,13 @@
 
 <script lang="ts" setup>
 import { Search, Filter } from 'lucide-vue-next'
-import { Button } from '@/components/ui/button'
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
-import { Input } from '@/components/ui/input'
-import AppHeader from "@/components/layout/AppHeader.vue"
-import ResultsTemplate from "@/components/ResultsTemplate.vue"
-import FilterYear from "@/components/filters/FilterYear.vue"
-import FilterButton from "@/components/filters/FilterButton.vue"
+import { Button } from '~/components/ui/button'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '~/components/ui/collapsible'
+import { Input } from '~/components/ui/input'
+import AppHeader from "~/components/layout/AppHeader.vue"
+import ResultsTemplate from "~/components/ResultsTemplate.vue"
+import FilterYear from "~/components/filters/FilterYear.vue"
+import FilterButton from "~/components/filters/FilterButton.vue"
 
 definePageMeta({
   layout: 'default'

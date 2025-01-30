@@ -5,7 +5,7 @@
         variant="outline"
         role="combobox"
         :aria-expanded="open"
-        class="justify-between rounded-none border-s-0"
+        class="justify-between rounded-md md:rounded-0 md:border-s-0"
         @click="(ajaxCall) ? getResultsFromApi() : ''"
       >
         {{ selectedFilter
@@ -59,7 +59,7 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover'
+} from '~/components/ui/popover'
 import {
   Command,
   CommandEmpty,
@@ -67,8 +67,8 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from '@/components/ui/command'
-import { Button } from '@/components/ui/button'
+} from '~/components/ui/command'
+import { Button } from '~/components/ui/button'
 
 // * EVENTS
 const emit = defineEmits(['updateQueryFilter'])

@@ -1,13 +1,13 @@
 <template>
   <Carousel
     @init-api="setApi"
-    class="w-full mx-auto mb-4"
+    class="w-full mx-auto"
   >
-    <CarouselContent class="-ml-1 px-8">
+    <CarouselContent class="-ml-2">
       <CarouselItem
         v-for="(event, eventIndex) in events"
         :key="eventIndex"
-        class="text-center pl-1 sm:basis-1/2 lg:basis-1/3 xl:basis-1/4"
+        class="text-center basis-full sm:basis-1/2 md:basis-full lg:basis-1/2 xl:basis-1/4 pl-2"
       >
         <Card :class="{'bg-secondary': isToday(event.date)}">
           <CardHeader class="p-2">
@@ -32,19 +32,24 @@
         </Card>
       </CarouselItem>
     </CarouselContent>
+    <div class="absolute bottom-0 left-0 w-[32px] bg-gradient-to-r from-[hsl(var(--background))] to-transparent h-full" />
+    <div class="absolute bottom-0 right-0 w-[32px] bg-gradient-to-r from-transparent to-[hsl(var(--background))] h-full" />
     <CarouselPrevious class="left-0" />
     <CarouselNext class="right-0" />
   </Carousel>
+  <div class="py-2 text-center text-sm text-muted-foreground">
+    Slide {{ current }} of {{ totalCount }}
+  </div>
 </template>
 
 <script lang="ts" setup>
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
-import { type CarouselApi } from "@/components/ui/carousel"
-import CardGameTiny from "@/components/cards/games/CardGameTiny.vue"
-import CardGamePlaceholderTiny from "@/components/cards/games/CardGamePlaceholderTiny.vue"
-import { getFormatDate } from '@/utils/dates'
-import { useMediaQuery } from '@vueuse/core'
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "~/components/ui/carousel"
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "~/components/ui/card"
+import { type CarouselApi } from "~/components/ui/carousel"
+import CardGameTiny from "~/components/cards/CardGameLink.vue"
+import CardGamePlaceholderTiny from "~/components/cards/placeholders/CardGamePlaceholderLink.vue"
+import { getFormatDate } from '~/utils/dates'
+import { useMediaQuery, watchOnce } from '@vueuse/core'
 
 // * PROPS
 const props = defineProps({
@@ -63,6 +68,9 @@ const games = ref<Array<Game>>(props.models)
 const loading = ref<boolean>(props.loading)
 const today = ref<Date>(new Date())
 const events = ref<Array<{date: Date, games: Array<Game>}>>([])
+const carouselApi = ref<CarouselApi>()
+const totalCount = ref(0)
+const current = ref(0)
 
 generateEvents()
 
@@ -74,10 +82,23 @@ watch(props, () => {
   generateEvents()
 })
 
+watchOnce(carouselApi, (api) => {
+  if (!api)
+    return
+
+  totalCount.value = api.scrollSnapList().length
+  current.value = api.selectedScrollSnap() + 1
+
+  api.on('select', () => {
+    current.value = api.selectedScrollSnap() + 1
+  })
+})
+
 // * METHODS
 
-function setApi(carouselApi: CarouselApi) {
-  carouselApi?.scrollTo(useMediaQuery('(max-width: 768px)').value ? 5 : 4)
+function setApi(val: CarouselApi) {
+  carouselApi.value = val
+  carouselApi.value?.scrollTo(useMediaQuery('(max-width: 768px)').value ? 5 : 4)
 }
 
 function isToday(date: Date): boolean {
@@ -107,7 +128,7 @@ function getGames(date: Date): Array<Game> {
 
 <style lang="css">
 .card-content {
-  height: 10rem;
+  height: 12rem;
   overflow-y: auto;
 }
 </style>

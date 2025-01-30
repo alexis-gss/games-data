@@ -32,9 +32,10 @@ type Game = {
   reviews_count: number,
   reviews_text_count: number,
   saturated_color: string,
-  short_screenshots: Array<Screenshot>
+  score: number|null,
+  short_screenshots: Array<Screenshot>,
   slug: string,
-  stores: Array<Stores>,
+  stores: Array<Stores>|null,
   suggestions_count: number,
   tags: Array<Tag>,
   tba: boolean,
@@ -49,6 +50,12 @@ type Tag = {
   language: string,
   name: string,
   slug: string,
+  games: Array<{
+    id: number,
+    name: string,
+    slug: string,
+    added: number,
+  }>,
 }
 
 type Store = {
@@ -58,6 +65,12 @@ type Store = {
   image_background: string,
   name: string,
   slug: string,
+  games: Array<{
+    id: number,
+    name: string,
+    slug: string,
+    added: number,
+  }>,
 }
 
 type Stores = {
@@ -91,6 +104,12 @@ type Platform = {
   image_background: string,
   name: string,
   slug: string,
+  games: Array<{
+    id: number,
+    name: string,
+    slug: string,
+    added: number,
+  }>,
   year_end: number|null,
   year_start: number,
 }

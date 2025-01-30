@@ -8,5 +8,5 @@
 </template>
 
 <script lang="ts" setup>
-import { Card, CardContent } from "@/components/ui/card"
+import { Card, CardContent } from "~/components/ui/card"
 </script>

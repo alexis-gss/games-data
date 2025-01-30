@@ -2,11 +2,6 @@ export default defineNuxtConfig({
   ssr: false,
   compatibilityDate: '2025-01-09',
   modules: ['@nuxtjs/tailwindcss', '@nuxtjs/device', 'shadcn-nuxt'],
-  router: {
-    options: {
-      hashMode: true
-    }
-  },
   runtimeConfig: {
     public: {
       appName: process.env.APP_NAME,
@@ -20,7 +15,6 @@ export default defineNuxtConfig({
     configPath: '~/tailwind.config.js'
   },
   shadcn: {
-    prefix: '',
     componentDir: './components/ui'
   }
 })

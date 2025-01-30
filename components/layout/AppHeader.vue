@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts" setup>
-import { SidebarTrigger } from "@/components/ui/sidebar"
+import { SidebarTrigger } from "~/components/ui/sidebar"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -31,8 +31,8 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
-import SearchCommand from "@/components/SearchCommand.vue"
+} from "~/components/ui/breadcrumb"
+import SearchCommand from "~/components/SearchCommand.vue"
 
 // * PROPS
 const props = defineProps({

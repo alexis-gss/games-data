@@ -25,7 +25,7 @@
 
 <script lang="ts" setup>
 import { Paintbrush } from 'lucide-vue-next'
-import { Drawer, DrawerContent, DrawerTrigger } from '@/components/ui/drawer'
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import ThemeCustomizer from '@/components/ThemeCustomizer.vue'
+import { Drawer, DrawerContent, DrawerTrigger } from '~/components/ui/drawer'
+import { Popover, PopoverContent, PopoverTrigger } from '~/components/ui/popover'
+import ThemeCustomizer from '~/components/ThemeCustomizer.vue'
 </script>

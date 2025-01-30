@@ -9,8 +9,8 @@
 
 <script lang="ts" setup>
 import { Hourglass } from 'lucide-vue-next'
-import AppHeader from "@/components/layout/AppHeader.vue"
-import ResultsTemplate from "@/components/ResultsTemplate.vue"
+import AppHeader from "~/components/layout/AppHeader.vue"
+import ResultsTemplate from "~/components/ResultsTemplate.vue"
 
 definePageMeta({
   layout: 'default'

@@ -11,7 +11,7 @@
       <CardHeader class="flex flex-col justify-center items-center px-4 py-6 z-20">
         <CardTitle class="font-bold">
           {{ model.name }}
-          <template v-if="model.year_start">
+          <template v-if="hasProperty(model, 'year_start')">
             ({{ model.year_start }})
           </template>
         </CardTitle>
@@ -44,20 +44,27 @@ import {
   TableBody,
   TableCell,
   TableRow,
-} from '@/components/ui/table'
+} from '~/components/ui/table'
 
 // * PROPS
-const props = defineProps({
+defineProps({
   model: {
     type: Object as PropType<Genre|Tag|Platform|Store|Developer|Publisher>,
     default: () => { return []; }
   },
 })
 
-// * DATA
-const model = ref<Object>(props.model)
-
-// * METHODS
+/**
+ * Check if the property exist on the model.
+ * @param obj object
+ * @param prop PropertyKey
+ */
+function hasProperty<T extends object, K extends PropertyKey>(
+  obj: T,
+  prop: K
+): obj is T & Record<K, unknown> {
+  return prop in obj;
+}
 </script>
 
 <style lang="css">

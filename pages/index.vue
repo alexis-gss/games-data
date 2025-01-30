@@ -5,9 +5,14 @@
       v-for="(section, sectionIndex) in sections"
       :key="sectionIndex"
     >
-      <h2 class="flex items-center justify-start mt-10 scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0 mb-4">
-        <component :is="section.icon" class="mr-[5px]" />
-      </h2>
+      <NuxtLink :to="section.link">
+        <h2 class="flex justify-between items-center scroll-m-20 border-b text-3xl font-semibold tracking-tight transition-colors first:mt-0 hover:text-primary pb-2 mb-4">
+          <div class="flex justify-start items-center">
+            <component :is="section.icon" class="mr-[5px]" />{{ section.title }}
+          </div>
+          <ChevronRight />
+        </h2>
+      </NuxtLink>
       <component :is="section.component" :loading="loading" :models="section.games" />
     </template>
   </div>
@@ -15,9 +20,9 @@
 
 <script lang="ts" setup>
 // https://lucide.dev/icons/
-import { Flame, CalendarCheck, CalendarIcon } from 'lucide-vue-next'
-import errors from '@/utils/errors'
-import AppHeader from "@/components/layout/AppHeader.vue"
+import { Flame, AlarmClock, CalendarIcon, ChevronRight } from 'lucide-vue-next'
+import errors from '~/utils/errors'
+import AppHeader from "~/components/layout/AppHeader.vue"
 import Trending from "~/components/Trending.vue"
 import Counters from "~/components/Counters.vue"
 import Releases from "~/components/Releases.vue"
@@ -31,25 +36,29 @@ const sections = ref<Array<{
   title: string,
   icon: Function,
   component: Object,
-  games: Array<Game>
+  games: Array<Game>,
+  link: string,
 }>>([
   {
     title: 'Trending',
     icon: Flame,
     component: Trending,
     games: [],
+    link: "/trend/popular",
   },
   {
     title: 'Countdowns',
-    icon: CalendarCheck,
+    icon: AlarmClock,
     component: Counters,
     games: [],
+    link: "/planning/most-anticipated",
   },
   {
     title: 'Releases',
     icon: CalendarIcon,
     component: Releases,
     games: [],
+    link: "/planning/upcoming-release",
   },
 ])
 const loading = ref<boolean>(true)

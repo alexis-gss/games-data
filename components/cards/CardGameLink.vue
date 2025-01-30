@@ -7,7 +7,7 @@
       class="whitespace-normal h-auto w-full"
       variant="outline"
     >
-        {{ game.name }}
+      {{ game.name }}
     </Button>
   </NuxtLink>
 </template>

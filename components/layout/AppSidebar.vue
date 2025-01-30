@@ -53,8 +53,8 @@
 import { useRoute } from 'vue-router'
 import { Home, Search, Flame, Hourglass, History, CalendarCheck, Trophy, Gamepad2, Download, Ghost, Hash, CodeXml, DollarSign } from 'lucide-vue-next'
 import slugify from 'slugify'
-import { useSidebar } from '@/components/ui/sidebar'
-import ThemeButton from '@/components/ThemeButton.vue'
+import { useSidebar } from '~/components/ui/sidebar'
+import ThemeButton from '~/components/ThemeButton.vue'
 
 // * DATA
 const { setOpenMobile, isMobile } = useSidebar()

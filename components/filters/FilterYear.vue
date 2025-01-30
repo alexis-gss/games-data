@@ -2,7 +2,7 @@
   <Drawer>
     <DrawerTrigger as-child>
       <Button
-        class="justify-start rounded-e-none"
+        class="justify-start md:rounded-e-none"
         variant="outline"
         :disabled="loading"
       >
@@ -88,7 +88,7 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from '@/components/ui/drawer'
+} from '~/components/ui/drawer'
 
 // * EVENTS
 const emit = defineEmits(['updateQueryYear'])
