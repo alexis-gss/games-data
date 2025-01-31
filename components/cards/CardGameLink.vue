@@ -1,7 +1,7 @@
 <template>
   <NuxtLink :to="{
-    name: 'game-slug',
-    params: { slug: game.slug },
+    name: 'game-id',
+    params: { id: model.id },
   }">
     <Button
       class="whitespace-normal h-auto w-full"

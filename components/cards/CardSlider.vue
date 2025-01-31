@@ -1,7 +1,7 @@
 <template>
   <NuxtLink :to="{
-    name: 'game-slug',
-    params: { slug: slugify(model.name, {lower: true, strict: true}) },
+    name: 'game-id',
+    params: { id: model.id },
   }">
     <Card class="card-custom relative inline-flex flex-row-reverse justify-end rounded-md overflow-hidden w-full h-full">
       <AspectRatio
@@ -22,8 +22,6 @@
 </template>
 
 <script lang="ts" setup>
-import slugify from 'slugify';
-
 // * PROPS
 defineProps({
   model: {

@@ -1,5 +1,5 @@
 <template>
-  <NuxtLink to="/advanced-search">
+  <NuxtLink :to="{ path: '/advanced-search', query: { filter: model.name, value: model.slug }}">
     <Card class="relative overflow-hidden flex flex-col justify-start items-center text-white w-full h-full">
       <img
         :src="model.image_background !== null ? model.image_background : 'https://placehold.co/90x90/jpg'"

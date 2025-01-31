@@ -1,7 +1,7 @@
 <template>
   <NuxtLink :to="{
-    name: 'game-slug',
-    params: { slug: slugify(model.name, {lower: true, strict: true}) },
+    name: 'game-id',
+    params: { id: model.id },
   }">
     <Card class="inline-flex flex-row-reverse justify-end w-full">
       <CardHeader class="flex flex-col justify-center items-start p-4 ps-0">

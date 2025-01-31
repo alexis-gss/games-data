@@ -1,8 +1,8 @@
 <template>
   <NuxtLink
     :to="{
-      name: 'game-slug',
-      params: { slug: slugify(model.name, {lower: true, strict: true}) },
+      name: 'game-id',
+      params: { id: model.id },
     }"
     class="h-full"
   >

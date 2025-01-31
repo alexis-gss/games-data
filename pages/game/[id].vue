@@ -17,7 +17,7 @@
   <!-- No game -->
   <div v-else-if="game === null">
     <TriangleAlert class="mb-1" />
-    <p>No game associated to this name : {{ slug }}</p>
+    <p>No game associated to this id : {{ id }}</p>
     <NuxtLink to="/" class="text-background-foreground hover:text-primary">
       Back to the homepage
     </NuxtLink>
@@ -113,7 +113,7 @@
       </AspectRatio>
       <a
         v-if="gamesgalleryPageCheck"
-        :href="`${config.public.ggUrl}/${slug}`"
+        :href="`${config.public.ggUrl}/${slugify(game.name)}`"
         target="_blank"
         class="text-xl font-bold rounded-md overflow-hidden"
       >
@@ -135,6 +135,7 @@ import { AspectRatio } from "~/components/ui/aspect-ratio"
 import { Card, CardHeader, CardTitle, CardContent } from "~/components/ui/card"
 import AppHeader from "~/components/layout/AppHeader.vue"
 import RatingDonut from '~/components/RatingDonut.vue'
+import slugify from 'slugify'
 
 definePageMeta({
   layout: 'default'
@@ -142,7 +143,7 @@ definePageMeta({
 
 // * DATA
 const config = useRuntimeConfig()
-const { slug } = useRoute().params
+const { id } = useRoute().params
 const game = ref<Game|null>(null)
 const gamesgalleryPageCheck = ref<boolean>(false)
 const loading = ref<boolean>(true)
@@ -158,41 +159,40 @@ getGame()
 async function getGame(): Promise<void> {
   try {
     loading.value = true
-    const [dataGame, dataPingCheck] = await Promise.all([
+    const [dataGame] = await Promise.all([
       $fetch('/api/rawg-api', {
         method: 'POST',
         body: {
           endpoint: 'games',
-          query: {
-            search: unslugify(slug as string),
-          }
-        }
-      }),
-      $fetch('/api/gamesgallery-ping', {
-        method: 'POST',
-        body: {
-          endpoint: 'game',
-          slug: slug
+          query: id,
         }
       }),
     ])
-    game.value = dataGame.results[0]
-    gamesgalleryPageCheck.value = dataPingCheck.online
+    game.value = dataGame
   } catch (error) {
     errorMessage.value = errors.methods.handleAjaxError(error)
   } finally {
     loading.value = false
-    console.log(game.value)
+    pingGamesGallery()
   }
 }
 
 /**
- * Unslugify the game slug.
- * @param slug string
+ * Check if there is a page dedicted to this game in Games Gallery.
+ * @return Promise<void>
  */
-function unslugify(slug: string): string {
-  return slug
-    .split('-')
-    .join(' ');
+async function pingGamesGallery(): Promise<void> {
+  try {
+    const { data } = await useFetch('/api/gamesgallery-ping', {
+      method: 'POST',
+      body: {
+        endpoint: 'game',
+        slug: slugify(game.value!.name)
+      }
+    })
+    gamesgalleryPageCheck.value = data.value!.online
+  } catch (error) {
+    errorMessage.value = errors.methods.handleAjaxError(error)
+  }
 }
 </script>
