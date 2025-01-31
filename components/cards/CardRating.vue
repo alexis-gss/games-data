@@ -18,13 +18,8 @@
           :alt="`Cover of the game ${model.name}`"
         >
       </CardContent>
-      <CardFooter>
-        <RatingDonut
-          v-if="model.metacritic !== null"
-          title="Metacritic"
-          :rating="model.metacritic"
-          :max-rating="100"
-        />
+      <CardFooter v-if="model.metacritic">
+        <RatingMin :rating="model.metacritic" :maxRating="100" />
       </CardFooter>
     </Card>
   </NuxtLink>
@@ -33,9 +28,8 @@
 <script lang="ts" setup>
 import { CalendarIcon } from 'lucide-vue-next'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "~/components/ui/card"
-import RatingDonut from "~/components/RatingDonut.vue"
+import RatingMin from "~/components/RatingMin.vue"
 import { getFormatDate } from '~/utils/dates'
-import slugify from 'slugify';
 
 // * PROPS
 defineProps({

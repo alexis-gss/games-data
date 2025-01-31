@@ -18,88 +18,28 @@
   <div v-else-if="game === null">
     <TriangleAlert class="mb-1" />
     <p>No game associated to this id : {{ id }}</p>
-    <NuxtLink to="/" class="text-background-foreground hover:text-primary">
+    <NuxtLink to="/" class="text-background-foreground hover:text-primary"focus:text-primary >
       Back to the homepage
     </NuxtLink>
   </div>
   <!-- Game Details -->
   <template v-else>
     <!-- Game Banner -->
-    <h1 class="sm:hidden text-center text-4xl text-white font-bold mb-6 z-10">
-      {{ game?.name }}
-    </h1>
-    <div class="hidden sm:block">
-      <AspectRatio
-        :ratio="25/9"
-        class="relative rounded-md overflow-hidden mb-6"
-      >
-        <h1 class="absolute bottom-0 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-4xl text-white font-bold mb-6 z-10">
-          {{ game?.name }}
-        </h1>
-        <div class="absolute bottom-0 left-0 w-full bg-gradient-to-b from-transparent to-black h-64"></div>
-        <img
-          :src="game.background_image ?? ''"
-          :alt="game.name"
-          class="w-full h-full object-cover"
-        />
-      </AspectRatio>
-    </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
-      <!-- Details -->
-      <Card>
-        <CardHeader>
-          <CardTitle>Détails du jeu</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p><strong>Release date :</strong> {{ new Date(game!.released).toLocaleDateString() }}</p>
-          <p v-if="game.genres && game.genres.length"><strong>Genres :</strong> {{ game.genres.map(g => g.name).join(', ') }}</p>
-          <p v-if="game.stores && game.stores.length"><strong>Stores :</strong> {{ game.stores.map(g => g.store.name).join(', ') }}</p>
-          <p v-if="game.platforms && game.platforms.length"><strong>Plateforms :</strong> {{ game.platforms.map(g => g.platform.name).join(', ') }}</p>
-          <p v-if="game.tags && game.tags.length"><strong>Tags :</strong> {{ game.tags.filter(g => g.language === "eng").map(g => g.name).join(', ') }}</p>
-          <p v-if="game.esrb_rating"><strong>ESRB Rating :</strong> {{ game.esrb_rating.name }}</p>
-          <p><strong>Average playtime :</strong> {{ game.playtime }}h</p>
-        </CardContent>
-      </Card>
-      <!-- Ratings -->
-      <Card>
-        <CardHeader>
-          <CardTitle>Ratings</CardTitle>
-        </CardHeader>
-        <CardContent class="flex flex-col lg:flex-row justify-center lg:justify-around items-center">
-          <RatingDonut
-            v-if="game.rating > 0"
-            title="Rawg"
-            :rating="game.rating"
-            :rating-count="game.ratings_count"
-            :max-rating="game.rating_top"
-            class="mb-6 lg:mb-0"
-          />
-          <RatingDonut
-            v-if="game.metacritic"
-            title="Metacritic"
-            :rating="game.metacritic"
-            :max-rating="100"
-          />
-        </CardContent>
-      </Card>
-      <!-- Rawg stats -->
-      <Card>
-        <CardHeader>
-          <CardTitle>Rawg stats</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p><strong>Added :</strong> {{ game.added }}</p>
-          <p><strong>beaten :</strong> {{ game.added_by_status?.beaten }}</p>
-          <p><strong>dropped :</strong> {{ game.added_by_status?.dropped }}</p>
-          <p><strong>owned :</strong> {{ game.added_by_status?.owned }}</p>
-          <p><strong>playing :</strong> {{ game.added_by_status?.playing }}</p>
-          <p><strong>toplay :</strong> {{ game.added_by_status?.toplay }}</p>
-          <p><strong>yet :</strong> {{ game.added_by_status?.yet }}</p>
-        </CardContent>
-      </Card>
+    <SectionBanner :model="game" />
+    <div class="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-6">
+      <!-- About -->
+      <div class="flex flex-col gap-4">
+        <SectionAbout :model="game" />
+      </div>
+      <div class="flex flex-col gap-4">
+        <!-- Metacritic -->
+        <SectionMetascore :model="game" />
+        <!-- Rawg -->
+        <SectionRawg :model="game" />
+      </div>
     </div>
     <!-- Screenshots -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+    <!-- <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
       <AspectRatio
         :ratio="16/9"
         v-for="(screenshot, screenshotIndex) in game.short_screenshots"
@@ -125,16 +65,16 @@
           <SquareArrowOutUpRight />
         </AspectRatio>
       </a>
-    </div>
+    </div> -->
   </template>
 </template>
 
 <script lang="ts" setup>
-import { TriangleAlert, SquareArrowOutUpRight } from 'lucide-vue-next'
-import { AspectRatio } from "~/components/ui/aspect-ratio"
-import { Card, CardHeader, CardTitle, CardContent } from "~/components/ui/card"
+import { TriangleAlert } from 'lucide-vue-next'
 import AppHeader from "~/components/layout/AppHeader.vue"
-import RatingDonut from '~/components/RatingDonut.vue'
+import SectionBanner from "~/components/SectionBanner.vue"
+import SectionMetascore from "~/components/SectionMetascore.vue"
+import SectionRawg from "~/components/SectionRawg.vue"
 import slugify from 'slugify'
 
 definePageMeta({
@@ -142,7 +82,6 @@ definePageMeta({
 })
 
 // * DATA
-const config = useRuntimeConfig()
 const { id } = useRoute().params
 const game = ref<Game|null>(null)
 const gamesgalleryPageCheck = ref<boolean>(false)
@@ -159,16 +98,15 @@ getGame()
 async function getGame(): Promise<void> {
   try {
     loading.value = true
-    const [dataGame] = await Promise.all([
-      $fetch('/api/rawg-api', {
-        method: 'POST',
-        body: {
-          endpoint: 'games',
-          query: id,
-        }
-      }),
-    ])
-    game.value = dataGame
+    const { data } = await useFetch('/api/rawg-api', {
+      method: 'POST',
+      body: {
+        endpoint: 'games',
+        query: id,
+      }
+    })
+    game.value = data.value
+    console.log(data)
   } catch (error) {
     errorMessage.value = errors.methods.handleAjaxError(error)
   } finally {

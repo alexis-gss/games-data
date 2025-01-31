@@ -10,18 +10,61 @@
       <div>
         <h3 class="text-xl font-bold mb-4">Quick links</h3>
         <ul class="space-y-2">
-          <li><NuxtLink to="/">Home</NuxtLink></li>
-          <li><NuxtLink to="/advanced-search">Advanced search</NuxtLink></li>
-          <li><NuxtLink to="/trend/popular">Popular</NuxtLink></li>
-          <li><NuxtLink to="/planning/most-anticipated">Most anticipated</NuxtLink></li>
-          <li><NuxtLink to="/browse/publishers">Publishers</NuxtLink></li>
+          <li>
+            <NuxtLink
+              to="/"
+              class="font-medium hover:text-primary focus:text-primary underline underline-offset-4"
+            >
+              Home
+            </NuxtLink>
+          </li>
+          <li>
+            <NuxtLink
+              to="/advanced-search"
+              class="font-medium hover:text-primary focus:text-primary underline underline-offset-4"
+            >
+              Advanced search
+            </NuxtLink>
+          </li>
+          <li>
+            <NuxtLink
+              to="/trend/popular"
+              class="font-medium hover:text-primary focus:text-primary underline underline-offset-4"
+            >
+              Popular
+            </NuxtLink>
+          </li>
+          <li>
+            <NuxtLink
+              to="/planning/most-anticipated"
+              class="font-medium hover:text-primary focus:text-primary underline underline-offset-4"
+            >
+              Most anticipated
+            </NuxtLink>
+          </li>
+          <li>
+            <NuxtLink
+              to="/browse/publishers"
+              class="font-medium hover:text-primary focus:text-primary underline underline-offset-4"
+            >
+              Publishers
+            </NuxtLink>
+          </li>
         </ul>
       </div>
       <div>
         <h3 class="text-xl font-bold mb-4">About</h3>
         <ul class="space-y-2">
-          <li><a href="#" class="hover:text-gray-300">Documentation</a></li>
-          <li><a href="#" class="hover:text-gray-300">Github repository</a></li>
+          <li>
+            <a href="#" class="font-medium hover:text-primary focus:text-primary underline underline-offset-4">
+              Documentation
+            </a>
+          </li>
+          <li>
+            <a href="#" class="font-medium hover:text-primary focus:text-primary underline underline-offset-4">
+              Github repository
+            </a>
+          </li>
         </ul>
       </div>
     </div>
