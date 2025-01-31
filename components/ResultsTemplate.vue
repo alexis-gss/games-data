@@ -9,42 +9,44 @@
     </div>
     <slot></slot>
     <ul :class="wrapperClass">
-      <li
-        v-if="errorMessage"
-        class="text-red-500 mt-4"
-      >
-        {{ errorMessage }}
-      </li>
+      <template v-if="loading">
+        <li
+          v-for="skeleton in paginationParameters.pageSize"
+          :key="skeleton"
+        >
+          <component :is="cardPlaceholder" />
+        </li>
+      </template>
       <template v-else>
-        <template v-if="loading">
-          <li
-            v-for="skeleton in paginationParameters.pageSize"
-            :key="skeleton"
-          >
-            <component :is="cardPlaceholder" />
-          </li>
-        </template>
-        <template v-else>
-          <li
-            v-for="(game, gameIndex) in games"
-            :key="gameIndex"
-          >
-            <component :is="card" :model="game" />
-          </li>
-          <li
-            v-if="paginationParameters.loading"
-            v-for="skeleton in paginationParameters.pageSize"
-            :key="skeleton"
-          >
-            <component :is="cardPlaceholder" />
-          </li>
+        <li
+          v-if="errorMessage"
+          class="text-red-500 mt-4"
+        >
+          <TriangleAlert class="mb-1" />
+          {{ errorMessage }}
+        </li>
+        <li
+          v-else
+          v-for="(game, gameIndex) in games"
+          :key="gameIndex"
+        >
+          <component :is="card" :model="game" />
+        </li>
+        <li
+          v-if="paginationParameters.loading"
+          v-for="skeleton in paginationParameters.pageSize"
+          :key="skeleton"
+        >
+          <component :is="cardPlaceholder" />
+        </li>
+        <template v-if="!errorMessage">
           <li
             v-if="paginationParameters.total * paginationParameters.page > games.length"
             class="text-center mb-4"
           >
             <Button
               @click="getResultsFromApi(true)"
-              :disabled="loading||paginationParameters.loading"
+              :disabled="loading || paginationParameters.loading"
             >
               <template v-if="paginationParameters.loading">
                 <LoaderCircle class="animate-spin" />
@@ -55,7 +57,7 @@
               </template>
             </Button>
           </li>
-          <li v-else>all data are loaded</li>
+          <li v-else class="text-muted-foreground">All data are loaded</li>
         </template>
       </template>
     </ul>
@@ -63,7 +65,8 @@
 </template>
 
 <script lang="ts" setup>
-import { LoaderCircle } from 'lucide-vue-next'
+import { LoaderCircle, TriangleAlert } from 'lucide-vue-next'
+import { toast } from 'vue-sonner'
 import CardGameMedium from "~/components/cards/CardGame.vue"
 import CardGamePlaceholderMedium from "~/components/cards/placeholders/CardGamePlaceholder.vue"
 import errors from '~/utils/errors'
@@ -150,6 +153,7 @@ watch(() => props.query, (newValue) => {
  * @return Promise<void>
  */
 async function getResultsFromApi(concat: boolean = false): Promise<void> {
+  errorMessage.value = null
   try {
     if (concat) {
       paginationParameters.page = paginationParameters.page + 1
@@ -164,10 +168,26 @@ async function getResultsFromApi(concat: boolean = false): Promise<void> {
         query: setParams(query.value)
       }
     })
-    paginationParameters.total = data.value.count
-    games.value = (concat) ? games.value.concat(data.value.results) : data.value.results
+    if (data.value) {
+      paginationParameters.total = data.value.count
+      games.value = (concat) ? games.value.concat(data.value.results) : data.value.results
+    } else {
+      errorMessage.value = "Aucune donnée n'est disponibles"
+      toast('Aucune donnée n\'est disponibles, veuillez réessayer plus tard', {
+        description: 'Sunday, December 03, 2023 at 9:00 AM',
+        action: {
+          label: 'Undo',
+        },
+      })
+    }
   } catch (error) {
     errorMessage.value = errors.methods.handleAjaxError(error)
+    toast('Un problème est survenu, veuillez réessayer plus tard', {
+      description: 'Sunday, December 03, 2023 at 9:00 AM',
+      action: {
+        label: 'Undo',
+      },
+    })
   } finally {
     (concat) ? paginationParameters.loading = false : loading.value = false
     emit('successfullCall', paginationParameters.total)

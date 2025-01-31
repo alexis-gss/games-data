@@ -1,26 +1,18 @@
 <template>
-  <div class="w-[10rem] h-[10rem] relative">
+  <div class="w-[7rem] h-[7rem] relative mx-auto">
     <canvas ref="chartCanvas" />
     <div class="absolute inset-0 flex flex-col items-center justify-center">
-      <p class="text-center">{{ title }}</p>
-      <span class="text-xl font-bold">
-        {{ rating }}/{{ maxRating }}
-      </span>
-      <p
-        v-if="ratingCount > 0"
-        class="text-center text-sm"
-      >
-      ({{ ratingCount }} ratings)
+      <p class="text-xl font-bold">
+        {{ rating }}<span class="text-muted-foreground">/{{ maxRating }}</span>
       </p>
     </div>
   </div>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import { ref, onMounted, onUnmounted, watch } from 'vue'
 import { Chart, DoughnutController, ArcElement } from 'chart.js'
-
-Chart.register(DoughnutController, ArcElement)
+import { getColorRating, HexColor } from '~/utils/ratingColor'
 
 // * PROPS
 const props = defineProps({
@@ -29,58 +21,53 @@ const props = defineProps({
     required: true,
     default: 0
   },
-  ratingCount: {
-    type: Number,
-    required: false,
-    default: 0
-  },
   maxRating: {
     type: Number,
     required: true,
     default: 100
-  },
-  title: {
-    type: String,
-    required: false,
-    default: ""
   }
 })
 
 // * DATA
-const chartCanvas = ref(null)
-let chart = null
+const chartCanvas = ref<HTMLCanvasElement|null>(null)
+let chart = ref<Chart|null>(null)
+Chart.register(DoughnutController, ArcElement)
 
 const createOrUpdateChart = () => {
-  const ctx = chartCanvas.value.getContext('2d')
-  const data = {
-    labels: ['Score', 'Restant'],
-    datasets: [
-      {
-        data: [props.rating, props.maxRating - props.rating],
-        backgroundColor: ['#3b82f6', '#e5e7eb'],
-        borderWidth: 0
-      }
-    ]
-  }
-  const options = {
-    responsive: true,
-    maintainAspectRatio: false,
-    cutout: '75%',
-    plugins: {
-      tooltip: { enabled: false },
-      legend: { display: false }
+  const ctx = chartCanvas.value?.getContext('2d')
+  if (ctx) {
+    const data = {
+      labels: ['Score', 'Restant'],
+      datasets: [
+        {
+          data: [props.rating, props.maxRating - props.rating],
+          backgroundColor: [getColorRating(props.rating, props.maxRating, HexColor), '#e5e7eb'],
+          borderWidth: 0
+        }
+      ]
     }
-  }
-  if (chart) {
-    chart.data = data
-    chart.options = options
-    chart.update()
+    const options = {
+      responsive: true,
+      maintainAspectRatio: false,
+      cutout: '75%',
+      plugins: {
+        tooltip: { enabled: false },
+        legend: { display: false }
+      }
+    }
+    if (chart.value) {
+      chart.value.data = data
+      chart.value.options = options
+      chart.value.update()
+    } else {
+      chart.value = new Chart(ctx, {
+        type: 'doughnut',
+        data,
+        options
+      })
+    }
   } else {
-    chart = new Chart(ctx, {
-      type: 'doughnut',
-      data,
-      options
-    })
+    console.error('Élément canvas introuvable.');
   }
 }
 
@@ -91,8 +78,8 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  if (chart) {
-    chart.destroy()
+  if (chart.value) {
+    chart.value.destroy()
   }
 })
 </script>

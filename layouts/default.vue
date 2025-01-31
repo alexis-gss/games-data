@@ -6,9 +6,11 @@
       <AppFooter />
     </SidebarInset>
   </SidebarProvider>
+  <Toaster />
 </template>
 
 <script lang="ts" setup>
+import { Toaster } from '@/components/ui/sonner'
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
 import AppSidebar from "@/components/layout/AppSidebar.vue"
 import AppFooter from "@/components/layout/AppFooter.vue"

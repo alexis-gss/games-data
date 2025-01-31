@@ -56,13 +56,20 @@
         </template>
       </CommandEmpty>
       <CommandGroup heading="Suggestions">
-        <CommandItem
+        <NuxtLink
           v-for="(game, gameIndex) in games"
           :key="gameIndex"
-          :value="game.name"
+          :to="{
+            name: 'game-id',
+            params: { id: game.id },
+          }"
         >
-          {{ game.name }}
-        </CommandItem>
+          <CommandItem
+            :value="game.name"
+          >
+            {{ game.name }}
+          </CommandItem>
+        </NuxtLink>
       </CommandGroup>
     </CommandList>
   </CommandDialog>
@@ -102,7 +109,7 @@ const { Meta_K, Ctrl_K } = useMagicKeys({
   },
 })
 
-// * WATCH
+// * WATCHERS
 
 /**
  * Add event on the K key.
