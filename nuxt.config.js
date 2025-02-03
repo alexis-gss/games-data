@@ -6,8 +6,8 @@ export default defineNuxtConfig({
     public: {
       appName: process.env.APP_NAME,
       ggUrl: process.env.GG_URL,
-      apiUrl: process.env.API_URL,
-      apiKey: process.env.API_KEY,
+      igdbClientId: process.env.IGDB_ID,
+      igdbClientSecret: process.env.IGDB_CLIENT_SECRET,
     }
   },
   css: ['~/assets/css/tailwind.css', '~/assets/css/themes.css'],

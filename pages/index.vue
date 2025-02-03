@@ -84,7 +84,7 @@ async function getResultsFromApi(): Promise<void> {
   try {
     loading.value = true
     const [dataTrending, dataAnticipated, dataTimeline] = await Promise.all([
-      $fetch('/api/rawg-api', {
+      $fetch('/api/igdb-api', {
         method: 'POST',
         body: {
           endpoint: 'games',
@@ -95,7 +95,7 @@ async function getResultsFromApi(): Promise<void> {
           }
         }
       }),
-      $fetch('/api/rawg-api', {
+      $fetch('/api/igdb-api', {
         method: 'POST',
         body: {
           endpoint: 'games',
@@ -106,7 +106,7 @@ async function getResultsFromApi(): Promise<void> {
           }
         }
       }),
-      $fetch('/api/rawg-api', {
+      $fetch('/api/igdb-api', {
         method: 'POST',
         body: {
           endpoint: 'games',
@@ -117,9 +117,10 @@ async function getResultsFromApi(): Promise<void> {
         }
       }),
     ])
-    sections.value[0].games = dataTrending.results
-    sections.value[1].games = dataAnticipated.results
-    sections.value[2].games = dataTimeline.results
+    console.log(dataTrending, dataAnticipated, dataTimeline)
+    // sections.value[0].games = dataTrending.results
+    // sections.value[1].games = dataAnticipated.results
+    // sections.value[2].games = dataTimeline.results
   } catch (error) {
     errorMessage.value = errors.methods.handleAjaxError(error)
   } finally {
